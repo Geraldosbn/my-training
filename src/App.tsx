@@ -128,7 +128,7 @@ const profiles: Record<ProfileKey, Profile> = {
         label: "Treino 1", focus: "Glúteos + Posterior", color: "#DB2777",
         aquecimento: { exercicio: "Esteira com inclinação", tempo: "10 min", intensidade: "Caminhada a 5 km/h com 5–8% inclinação — ativa glúteos" },
         exercicios: [
-          { id: "eE10", nome: "Hip Thrust na Máquina", series: "4x15", descanso: "60s", obs: "Quadril sobe até alinhar com joelhos, contração máxima no topo" },
+          { id: "eE10", nome: "Hip Thrust com Barra", series: "4x15", descanso: "60s", obs: "Apoie o banco nas escápulas, barra no quadril com amortecedor, empurre os calcanhares no chão e contraia os glúteos no topo" },
           { id: "eE11", nome: "Agachamento Sumo com Haltere", series: "4x15", descanso: "60s", obs: "Pés bem abertos, pontas para fora, desça com o quadril" },
           { id: "eE12", nome: "Leg Press pés altos e afastados", series: "4x15", descanso: "60s", obs: "Pés no topo da plataforma ativa mais glúteo e posterior" },
           { id: "eE13", nome: "Cadeira Adutora", series: "3x20", descanso: "45s", obs: "Movimento lento, pressão constante na junção" },
