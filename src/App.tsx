@@ -1,6 +1,52 @@
 import { useState } from "react";
 
-const profiles = {
+type DiaSemana = {
+  dia: string;
+  treino: string | null;
+  ativo: boolean;
+};
+
+type Aquecimento = {
+  exercicio: string;
+  tempo: string;
+  intensidade: string;
+};
+
+type Exercicio = {
+  id: string;
+  nome: string;
+  series: string;
+  descanso: string;
+  obs: string;
+};
+
+type Workout = {
+  label: string;
+  focus: string;
+  color: string;
+  aquecimento: Aquecimento;
+  exercicios: Exercicio[];
+};
+
+type Profile = {
+  nome: string;
+  emoji: string;
+  descricao: string;
+  accentBg: string;
+  semana: DiaSemana[];
+  workouts: Record<string, Workout>;
+};
+
+type ProfileKey = "eu" | "esposa";
+
+type ExerciseData = {
+  cargas: Record<string, string>;
+  feito: Record<string, boolean>;
+};
+
+type AppData = Record<string, ExerciseData>;
+
+const profiles: Record<ProfileKey, Profile> = {
   eu: {
     nome: "Masculino",
     emoji: "👨",
@@ -127,52 +173,59 @@ const profiles = {
 };
 
 const STORAGE_KEY = "treino_gym_data_v2";
-const todayKey = () => new Date().toISOString().slice(0, 10);
+const todayKey = (): string => new Date().toISOString().slice(0, 10);
 
-function loadData() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+function loadData(): AppData {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}") as AppData; }
   catch { return {}; }
 }
-function saveData(d) {
+
+function saveData(d: AppData): void {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch {}
 }
 
 export default function TreinoApp() {
-  const [perfil, setPerfil] = useState("eu");
-  const [selected, setSelected] = useState("A");
-  const [data, setData] = useState(() => loadData());
-  const [flash, setFlash] = useState(false);
+  const [perfil, setPerfil] = useState<ProfileKey>("eu");
+  const [selected, setSelected] = useState<string>("A");
+  const [data, setData] = useState<AppData>(() => loadData());
+  const [flash, setFlash] = useState<boolean>(false);
 
   const profile = profiles[perfil];
   const today = todayKey();
 
-  // When switching profiles, default to first active treino
-  const switchPerfil = (p) => {
+  const switchPerfil = (p: ProfileKey): void => {
     setPerfil(p);
     const first = profiles[p].semana.find(d => d.ativo);
-    setSelected(first?.treino || Object.keys(profiles[p].workouts)[0]);
+    setSelected(first?.treino ?? Object.keys(profiles[p].workouts)[0]);
   };
 
-  const treino = profile.workouts[selected] || profile.workouts[Object.keys(profile.workouts)[0]];
+  const treino = profile.workouts[selected] ?? profile.workouts[Object.keys(profile.workouts)[0]];
 
-  const exd = (id) => data[id] || { cargas: {}, feito: {} };
+  const exd = (id: string): ExerciseData => data[id] ?? { cargas: {}, feito: {} };
 
-  const update = (nd) => {
+  const update = (nd: AppData): void => {
     setData(nd); saveData(nd);
     setFlash(true); setTimeout(() => setFlash(false), 1200);
   };
 
-  const setCarga = (id, val) => update({ ...data, [id]: { ...exd(id), cargas: { ...exd(id).cargas, [today]: val } } });
-  const toggleFeito = (id) => update({ ...data, [id]: { ...exd(id), feito: { ...exd(id).feito, [today]: !exd(id).feito[today] } } });
-  const markAllDone = () => {
-    const nd = { ...data };
-    treino.exercicios.forEach(ex => { nd[ex.id] = { ...exd(ex.id), feito: { ...exd(ex.id).feito, [today]: true } }; });
+  const setCarga = (id: string, val: string): void =>
+    update({ ...data, [id]: { ...exd(id), cargas: { ...exd(id).cargas, [today]: val } } });
+
+  const toggleFeito = (id: string): void =>
+    update({ ...data, [id]: { ...exd(id), feito: { ...exd(id).feito, [today]: !exd(id).feito[today] } } });
+
+  const markAllDone = (): void => {
+    const nd: AppData = { ...data };
+    treino.exercicios.forEach(ex => {
+      nd[ex.id] = { ...exd(ex.id), feito: { ...exd(ex.id).feito, [today]: true } };
+    });
     update(nd);
   };
-  const getLastCarga = (id) => {
+
+  const getLastCarga = (id: string): string | null => {
     const c = exd(id).cargas;
     const past = Object.keys(c).filter(d => d < today).sort().reverse();
-    return past.length ? c[past[0]] : null;
+    return past.length ? (c[past[0]] ?? null) : null;
   };
 
   const totalFeito = treino.exercicios.filter(ex => exd(ex.id).feito[today]).length;
@@ -185,7 +238,7 @@ export default function TreinoApp() {
 
         {/* Seletor de perfil */}
         <div style={{ display: "flex", gap: 8, marginBottom: 22 }}>
-          {Object.entries(profiles).map(([key, p]) => (
+          {(Object.entries(profiles) as [ProfileKey, Profile][]).map(([key, p]) => (
             <button
               key={key}
               onClick={() => switchPerfil(key)}
@@ -201,7 +254,6 @@ export default function TreinoApp() {
             >
               <div style={{ fontSize: 22 }}>{p.emoji}</div>
               <div style={{ fontSize: 13, fontWeight: 800, marginTop: 4 }}>{p.nome}</div>
-
             </button>
           ))}
         </div>
@@ -218,10 +270,10 @@ export default function TreinoApp() {
             const isDone = d.ativo && d.treino && profile.workouts[d.treino]?.exercicios.every(ex => exd(ex.id).feito[today]);
             const col = d.ativo && d.treino ? profile.workouts[d.treino].color : null;
             return (
-              <div key={d.dia} onClick={() => d.ativo && setSelected(d.treino)} style={{
+              <div key={d.dia} onClick={() => { if (d.ativo && d.treino) setSelected(d.treino); }} style={{
                 flex: 1, borderRadius: 10, padding: "10px 4px", textAlign: "center",
                 cursor: d.ativo ? "pointer" : "default",
-                background: isSel ? col : d.ativo ? "#1C1C1C" : "#131313",
+                background: isSel ? col ?? undefined : d.ativo ? "#1C1C1C" : "#131313",
                 border: isSel ? "none" : d.ativo ? "1px solid #2A2A2A" : "1px solid transparent",
                 transition: "all 0.15s",
               }}>
@@ -278,8 +330,8 @@ export default function TreinoApp() {
           <div>
             <div style={{ padding: "12px 20px 4px", fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", fontWeight: 700 }}>💪 Musculação</div>
             {treino.exercicios.map((ex, i) => {
-              const feito = exd(ex.id).feito[today] || false;
-              const carga = exd(ex.id).cargas[today] || "";
+              const feito = exd(ex.id).feito[today] ?? false;
+              const carga = exd(ex.id).cargas[today] ?? "";
               const ultima = getLastCarga(ex.id);
               return (
                 <div key={ex.id} style={{
@@ -321,8 +373,9 @@ export default function TreinoApp() {
                       }}>
                         <span style={{ fontSize: 15 }}>🏋️</span>
                         <input
-                          type="text" value={carga}
-                          onChange={(e) => setCarga(ex.id, e.target.value)}
+                          type="text"
+                          value={carga}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCarga(ex.id, e.target.value)}
                           placeholder="Carga de hoje..."
                           style={{ background: "transparent", border: "none", outline: "none", color: "#F0F0F0", fontSize: 13, width: "100%", fontFamily: "inherit" }}
                         />
