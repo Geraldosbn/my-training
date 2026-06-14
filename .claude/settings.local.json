@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Geraldo\\\\Downloads\\\\meu-treino\\\\meu-treino\" -Force)",
+      "Bash(Select-Object -Property Name, PSIsContainer)"
+    ]
+  }
+}
