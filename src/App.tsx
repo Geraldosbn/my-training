@@ -222,6 +222,14 @@ export default function TreinoApp() {
     update(nd);
   };
 
+  const clearChecks = (): void => {
+    const nd: AppData = { ...data };
+    treino.exercicios.forEach(ex => {
+      nd[ex.id] = { ...exd(ex.id), feito: { ...exd(ex.id).feito, [today]: false } };
+    });
+    update(nd);
+  };
+
   const getLastCarga = (id: string): string | null => {
     const c = exd(id).cargas;
     const past = Object.keys(c).filter(d => d < today).sort().reverse();
@@ -389,9 +397,9 @@ export default function TreinoApp() {
           </div>
 
           {/* Botão finalizar */}
-          <div style={{ padding: "14px 20px", borderTop: "1px solid #1E1E1E" }}>
+          <div style={{ padding: "14px 20px", borderTop: "1px solid #1E1E1E", display: "flex", gap: 8 }}>
             <button onClick={markAllDone} disabled={allDone} style={{
-              width: "100%", padding: "14px", borderRadius: 12,
+              flex: 1, padding: "14px", borderRadius: 12,
               background: allDone ? "#1C1C1C" : treino.color,
               color: allDone ? "#4ade80" : "#fff",
               border: allDone ? "1px solid #2A2A2A" : "none",
@@ -400,6 +408,19 @@ export default function TreinoApp() {
             }}>
               {allDone ? "✓ Treino concluído hoje!" : "Marcar todos como feito"}
             </button>
+            {totalFeito > 0 && (
+              <button onClick={clearChecks} style={{
+                padding: "14px 16px", borderRadius: 12,
+                background: "transparent",
+                color: "#555",
+                border: "1px solid #2A2A2A",
+                cursor: "pointer",
+                fontSize: 15, fontWeight: 800, transition: "all 0.25s",
+                flexShrink: 0,
+              }}>
+                ↺
+              </button>
+            )}
           </div>
         </div>
 
