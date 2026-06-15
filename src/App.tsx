@@ -70,7 +70,7 @@ const profiles: Record<ProfileKey, Profile> = {
           { id: "mA1", nome: "Crucifixo Inclinado (Polia ou Haltere)", series: "3x15", descanso: "45s", obs: "Amplitude máxima, sem travar o cotovelo" },
           { id: "mA2", nome: "Supino Inclinado na Máquina", series: "3x12", descanso: "60s", obs: "Isole o peitoral superior" },
           { id: "mA3", nome: "Tríceps Pulley (Barra reta)", series: "4x15", descanso: "45s", obs: "Cotovelos fixos ao lado do corpo" },
-          { id: "mA4", nome: "Tríceps Coice com Haltere", series: "3x12", descanso: "45s", obs: "Extensão total do cotovelo" },
+          { id: "mA4", nome: "Tríceps Francês com Haltere", series: "3x12", descanso: "45s", obs: "Sentado ou em pé, haltere atrás da nuca, cotovelos apontados para cima, extensão completa" },
         ],
       },
       B: {
