@@ -175,6 +175,19 @@ const profiles: Record<ProfileKey, Profile> = {
 const STORAGE_KEY = "treino_gym_data_v2";
 const todayKey = (): string => new Date().toISOString().slice(0, 10);
 
+// JS getDay(): 0=Dom,1=Seg,...,6=Sáb → índice no array semana (Seg=0,...,Dom=6)
+const JS_DAY_TO_SEMANA: Record<number, number> = { 0: 6, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5 };
+
+function getWorkoutForToday(p: ProfileKey): string {
+  const { semana, workouts } = profiles[p];
+  const todayIdx = JS_DAY_TO_SEMANA[new Date().getDay()];
+  for (let i = 0; i < 7; i++) {
+    const d = semana[(todayIdx - i + 7) % 7];
+    if (d.ativo && d.treino) return d.treino;
+  }
+  return Object.keys(workouts)[0];
+}
+
 function loadData(): AppData {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}") as AppData; }
   catch { return {}; }
@@ -186,7 +199,7 @@ function saveData(d: AppData): void {
 
 export default function TreinoApp() {
   const [perfil, setPerfil] = useState<ProfileKey>("eu");
-  const [selected, setSelected] = useState<string>("A");
+  const [selected, setSelected] = useState<string>(() => getWorkoutForToday("eu"));
   const [data, setData] = useState<AppData>(() => loadData());
   const [flash, setFlash] = useState<boolean>(false);
 
@@ -195,8 +208,7 @@ export default function TreinoApp() {
 
   const switchPerfil = (p: ProfileKey): void => {
     setPerfil(p);
-    const first = profiles[p].semana.find(d => d.ativo);
-    setSelected(first?.treino ?? Object.keys(profiles[p].workouts)[0]);
+    setSelected(getWorkoutForToday(p));
   };
 
   const treino = profile.workouts[selected] ?? profile.workouts[Object.keys(profile.workouts)[0]];
