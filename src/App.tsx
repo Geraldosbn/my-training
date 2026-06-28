@@ -6,6 +6,7 @@ import { useWorkoutData } from "./hooks/useWorkoutData";
 import { ProfileSelector } from "./components/ProfileSelector";
 import { WeekDayBar } from "./components/WeekDayBar";
 import { WorkoutCard } from "./components/WorkoutCard";
+import styles from "./App.module.css";
 
 export default function TreinoApp() {
   const [perfil, setPerfil] = useState<ProfileKey>("eu");
@@ -21,13 +22,13 @@ export default function TreinoApp() {
   };
 
   return (
-    <div style={{ fontFamily: "'Inter','Segoe UI',sans-serif", background: "#0F0F0F", minHeight: "100vh", color: "#F5F5F5", padding: "20px 16px" }}>
-      <div style={{ maxWidth: 520, margin: "0 auto" }}>
+    <div className={styles.root}>
+      <div className={styles.container}>
 
         <ProfileSelector profiles={profiles} selected={perfil} onSelect={switchPerfil} />
 
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 4, height: 16 }}>
-          <span style={{ fontSize: 11, color: flash ? "#4ade80" : "transparent", transition: "color 0.2s", fontWeight: 700 }}>✓ salvo</span>
+        <div className={styles.flashBar}>
+          <span className={`${styles.flashText} ${flash ? styles.flashTextVisible : ""}`}>✓ salvo</span>
         </div>
 
         <WeekDayBar

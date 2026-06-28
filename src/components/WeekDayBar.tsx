@@ -1,4 +1,5 @@
 import type { DiaSemana, Workout } from "../types";
+import styles from "./WeekDayBar.module.css";
 
 type Props = {
   semana: DiaSemana[];
@@ -10,25 +11,29 @@ type Props = {
 
 export function WeekDayBar({ semana, workouts, selected, isFeitoHoje, onSelect }: Props) {
   return (
-    <div style={{ display: "flex", gap: 6, marginBottom: 18 }}>
+    <div className={styles.container}>
       {semana.map((d) => {
         const isSel = d.ativo && d.treino === selected;
         const isDone = d.ativo && d.treino && workouts[d.treino]?.exercicios.every(ex => isFeitoHoje(ex.id));
-        const col = d.ativo && d.treino ? workouts[d.treino].color : null;
+        const col = d.ativo && d.treino ? workouts[d.treino].color : undefined;
+
+        const dayClass = [
+          styles.day,
+          d.ativo && !isSel ? styles.dayActive : "",
+          isSel ? styles.daySelected : "",
+        ].join(" ");
+
         return (
           <div
             key={d.dia}
             onClick={() => { if (d.ativo && d.treino) onSelect(d.treino); }}
-            style={{
-              flex: 1, borderRadius: 10, padding: "10px 4px", textAlign: "center",
-              cursor: d.ativo ? "pointer" : "default",
-              background: isSel ? col ?? undefined : d.ativo ? "#1C1C1C" : "#131313",
-              border: isSel ? "none" : d.ativo ? "1px solid #2A2A2A" : "1px solid transparent",
-              transition: "all 0.15s",
-            }}
+            className={dayClass}
+            style={isSel ? { "--day-color": col } as React.CSSProperties : undefined}
           >
-            <div style={{ fontSize: 10, color: d.ativo ? (isSel ? "#fff" : "#888") : "#2E2E2E", fontWeight: 700, letterSpacing: 1 }}>{d.dia}</div>
-            <div style={{ fontSize: 13, fontWeight: 800, color: isSel ? "#fff" : "#666", marginTop: 4 }}>
+            <div className={[styles.dayLabel, d.ativo ? (isSel ? styles.dayLabelSelected : styles.dayLabelActive) : ""].join(" ")}>
+              {d.dia}
+            </div>
+            <div className={[styles.dayValue, isSel ? styles.dayValueSelected : ""].join(" ")}>
               {d.ativo ? (isDone ? "✓" : d.treino) : "—"}
             </div>
           </div>

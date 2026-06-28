@@ -1,0 +1,71 @@
+.header {
+  background: var(--accent);
+  padding: 16px 20px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.focus {
+  font-size: 20px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.duration {
+  text-align: right;
+}
+
+.durationValue {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.durationUnit {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.progressSection {
+  margin-top: 14px;
+}
+
+.progressLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.progressLabel {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.progressCount {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.progressTrack {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 99px;
+  height: 7px;
+}
+
+.progressBar {
+  background: #fff;
+  border-radius: 99px;
+  height: 7px;
+  transition: width 0.4s ease;
+}

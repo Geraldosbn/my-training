@@ -1,0 +1,145 @@
+.item {
+  padding: 14px 20px;
+  border-bottom: 1px solid #1E1E1E;
+  background: transparent;
+  transition: background 0.25s;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.itemDone {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checkButton {
+  min-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  margin-top: 1px;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+
+.checkButtonDone {
+  background: var(--accent);
+  border-color: transparent;
+  color: #fff;
+  font-size: 15px;
+}
+
+.info {
+  flex: 1;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.infoDone {
+  opacity: 0.55;
+}
+
+.name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #F0F0F0;
+}
+
+.nameDone {
+  text-decoration: line-through;
+  color: #777;
+}
+
+.obs {
+  font-size: 12px;
+  color: #555;
+  margin-top: 2px;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 7px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: #252525;
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 12px;
+  color: #666;
+}
+
+.tagSeries {
+  font-weight: 700;
+  color: #ccc;
+}
+
+.cargaRow {
+  margin-top: 10px;
+  margin-left: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #252525;
+  border-radius: 10px;
+  padding: 8px 12px;
+  border: 1.5px solid #2E2E2E;
+  flex: 1;
+  max-width: 200px;
+  transition: border-color 0.2s;
+}
+
+.inputWrapperWithCarga {
+  border-color: color-mix(in srgb, var(--accent) 27%, transparent);
+}
+
+.inputWrapperDone {
+  border-color: color-mix(in srgb, var(--accent) 53%, transparent);
+}
+
+.inputIcon {
+  font-size: 15px;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #F0F0F0;
+  font-size: 13px;
+  width: 100%;
+}
+
+.ultimaCarga {
+  font-size: 11px;
+  color: #444;
+  white-space: nowrap;
+}
+
+.ultimaCargaValue {
+  color: #666;
+  font-weight: 600;
+}

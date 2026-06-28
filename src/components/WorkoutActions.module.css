@@ -1,0 +1,40 @@
+.container {
+  padding: 14px 20px;
+  border-top: 1px solid #1E1E1E;
+  display: flex;
+  gap: 8px;
+}
+
+.markAllButton {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  transition: all 0.25s;
+}
+
+.markAllButtonDone {
+  background: #1C1C1C;
+  color: #4ade80;
+  border: 1px solid #2A2A2A;
+  cursor: default;
+}
+
+.clearButton {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: transparent;
+  color: #555;
+  border: 1px solid #2A2A2A;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 800;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
