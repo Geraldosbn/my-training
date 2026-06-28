@@ -92,7 +92,7 @@ const profiles: Record<ProfileKey, Profile> = {
           { id: "mC1", nome: "Cadeira Adutora", series: "4x15", descanso: "45s", obs: "Movimento controlado, pressione no final" },
           { id: "mC2", nome: "Cadeira Extensora", series: "3x15", descanso: "45s", obs: "Extensão completa, desça devagar" },
           { id: "mC3", nome: "Mesa Flexora", series: "3x15", descanso: "45s", obs: "Foco na contração do posterior" },
-          { id: "mC4", nome: "Leg Curl Deitado (Mesa Flexora)", series: "4x15", descanso: "45s", obs: "Sem tirar o quadril do banco, descida lenta" },
+          { id: "mC4", nome: "Cadeira Abdutora", series: "4x15", descanso: "45s", obs: "Movimento controlado, pressione na abertura máxima e volte devagar" },
         ],
       },
       D: {
