@@ -435,34 +435,6 @@ export default function TreinoApp() {
             )}
           </div>
         </div>
-
-        {/* Dicas */}
-        <div style={{ background: "#1A1A1A", borderRadius: 14, padding: "16px 18px", border: "1px solid #242424", marginBottom: 16 }}>
-          <div style={{ fontSize: 10, color: "#555", letterSpacing: 2, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Orientações gerais</div>
-          {(perfil === "esposa" ? [
-            ["🥤", "Hidratação", "500ml antes + gole a cada exercício"],
-            ["🍑", "Foco", "Contraia o glúteo conscientemente em cada rep — isso faz diferença real"],
-            ["📈", "Progressão", "Aumente carga a cada 2 semanas para continuar evoluindo"],
-            ["😴", "Descanso", "7–9h de sono: hormônios equilibrados queimam mais gordura"],
-          ] : [
-            ["🥤", "Hidratação", "500ml antes + gole a cada exercício"],
-            ["🍽️", "Pré-treino", "Refeição leve 1h antes (carbo + proteína)"],
-            ["📈", "Progressão", "Aumente carga quando completar todas as séries com facilidade"],
-            ["😴", "Descanso", "7–9h de sono: essencial para emagrecer e hipertrofiar"],
-          ]).map(([icon, titulo, desc]) => (
-            <div key={titulo} style={{ display: "flex", gap: 12, marginBottom: 9 }}>
-              <span style={{ fontSize: 16, marginTop: 1 }}>{icon}</span>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 13 }}>{titulo}</div>
-                <div style={{ fontSize: 12, color: "#666" }}>{desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ textAlign: "center", fontSize: 11, color: "#383838", paddingBottom: 12 }}>
-          Consulte um educador físico para ajustes personalizados
-        </div>
       </div>
     </div>
   );
